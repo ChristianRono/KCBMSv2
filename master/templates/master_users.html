@@ -1,0 +1,180 @@
+{% extends 'master_base.html' %}
+{% block title %}Users{% endblock %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/master/">Kericho County Bursary Management System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{% url 'master homepage'%}">Home</a>
+            <a class="nav-link" href="{% url 'master applications' %}">Applications</a>
+            <a class="nav-link" href="{% url 'master users' %}">Users</a>
+            <a class="nav-link" href="{% url 'master financial' %}">Financial Years</a>
+            <a class="nav-link" href="{% url 'master allocations' %}">Allocations</a>
+            <a class="nav-link" href="/master/logout/">Log Out</a>
+        </div>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <button class="btn btn-info">Add New User</button>
+    <ul class="nav nav-tabs nav-fill">
+        <li class="nav-item">
+            <button class="nav-link active" id="ward-tab" data-bs-toggle="tab" data-bs-target="#ward" type="button" role="tab" aria-controls="ward" aria-selected="True">Ward Admin Users</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="edu-tab" data-bs-toggle="tab" data-bs-target="#edu" type="button" role="tab" aria-controls="edu" aria-selected="False">Education Admin Users</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="accountat-tab" data-bs-toggle="tab" data-bs-target="#accountant" type="button" role="tab" aria-controls="accountant" aria-selected="False">Accounts Users</button>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="ward" class="tab-pane fade in show active">
+            <table class="table">
+                <h4>Active Ward Admins</h4>
+                <tr>
+                    <th>Username</th>
+                    <th>Ward</th>
+                    <th>Last Login</th>
+                    <th>Date Joined</th>
+                    <th>Action</th>
+                </tr>
+                {% for user in ward_admin_users %}
+                {% if user.user.is_active %}
+                <tr>
+                    <td>{{ user.user.username }}</td>
+                    <td>{{ user.ward.name | default:"N/A" }}</td>
+                    <td>{{ user.user.last_login }}</td>
+                    <td>{{ user.user.date_joined }}</td>
+                    <td>
+                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/deactivate/{{ user.user.id }}" class="btn btn-danger">De-activate User</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+            <table class="table">
+                <h4>Inactive Ward Admins</h4>
+                <tr>
+                    <th>Username</th>
+                    <th>Ward</th>
+                    <th>Last Login</th>
+                    <th>Date Joined</th>
+                    <th>Action</th>
+                </tr>
+                {% for user in ward_admin_users %}
+                {% if not user.user.is_active %}
+                <tr>
+                    <td>{{ user.user.username }}</td>
+                    <td>{{ user.ward.name | default:"N/A" }}</td>
+                    <td>{{ user.user.last_login }}</td>
+                    <td>{{ user.user.date_joined }}</td>
+                    <td>
+                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/activate/{{ user.user.id }}" class="btn btn-warning">Activate User</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+        <div id="edu" class="tab-pane fade in active">
+            <table class="table">
+                <h4>Active Education Admins</h4>
+                <tr>
+                    <th>Username</th>
+                    <th>Last Login</th>
+                    <th>Date Joined</th>
+                    <th>Action</th>
+                </tr>
+                {% for user in edu_admin_users %}
+                {% if user.user.is_active %}
+                <tr>
+                    <td>{{ user.user.username }}</td>
+                    <td>{{ user.user.last_login }}</td>
+                    <td>{{ user.user.date_joined }}</td>
+                    <td>
+                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/deactivate/{{ user.user.id }}" class="btn btn-danger">De-activate User</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+            <table class="table">
+                <h4>Inactive Education Admins</h4>
+                <tr>
+                    <th>Username</th>
+                    <th>Last Login</th>
+                    <th>Date Joined</th>
+                    <th>Action</th>
+                </tr>
+                {% for user in edu_admin_users %}
+                {% if not user.user.is_active %}
+                <tr>
+                    <td>{{ user.user.username }}</td>
+                    <td>{{ user.user.last_login }}</td>
+                    <td>{{ user.user.date_joined }}</td>
+                    <td>
+                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/activate/{{ user.user.id }}" class="btn btn-warning">Activate User</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+        <div id="accountant" class="tab-pane fade in active">
+            <table class="table">
+                <h4>Active Accountants</h4>
+                <tr>
+                    <th>Username</th>
+                    <th>Last Login</th>
+                    <th>Date Joined</th>
+                    <th>Action</th>
+                </tr>
+                {% for user in accountant_users %}
+                {% if user.user.is_active %}
+                <tr>
+                    <td>{{ user.user.username }}</td>
+                    <td>{{ user.user.last_login }}</td>
+                    <td>{{ user.user.date_joined }}</td>
+                    <td>
+                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/deactivate/{{ user.user.id }}" class="btn btn-danger">De-activate User</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+            <table class="table">
+                <h4>Inactive Accountants</h4>
+                <tr>
+                    <th>Username</th>
+                    <th>Last Login</th>
+                    <th>Date Joined</th>
+                    <th>Action</th>
+                </tr>
+                {% for user in accountant_users %}
+                {% if not user.user.is_active %}
+                <tr>
+                    <td>{{ user.user.username }}</td>
+                    <td>{{ user.user.last_login }}</td>
+                    <td>{{ user.user.date_joined }}</td>
+                    <td>
+                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/activate/{{ user.user.id }}" class="btn btn-warning">Activate User</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'accounts_base.html' %}
+{% block title %}Schools{% endblock %}0
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'accounts homepage'%}">Kericho County Bursary Management System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{% url 'accounts homepage'%}">Home</a>
+            <a class="nav-link" href="{% url 'accounts applications' %}">Applications</a>
+            <a class="nav-link" href="{% url 'accounts schools' %}">Schools</a>
+            <a class="nav-link" href="{% url 'accounts students' %}">Students</a>
+            <a class="nav-link" href="/accounts/logout/">Log Out</a>
+        </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h3>All Schools</h3>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Bank</th>
+            <th>Account Number</th>
+            <th>Branch</th>
+            <th>Amount</th>
+        </tr>
+        {% for school,data in schools.items %}
+        <tr>
+            <td>{{ school|title }}</td>
+            <td>{{ data.bank }}</td>
+            <td>
+                {% if data.account|length > 1 %}
+                    {% for value in data.account %}
+                        {{ value|title }},
+                    {% endfor %}
+                {% else %}
+                    {{ data.account.0 }}
+                {% endif %}
+            </td>
+            <td>
+                {% if data.branch|length > 1 %}
+                    {% for value in data.branch %}
+                        {{ value|title }},
+                    {% endfor %}
+                {% else %}
+                    {{ data.branch.0 }}
+                {% endif %}
+            </td>
+            <td>{{ data.amount|title }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <span>No Applications as of now!</span>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th>Total</th>
+            <th>Ksh.{{ total }}</th>
+    </table>
+    <div class="pagination">
+        <span class="step-links">
+        {% if applications.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ applications.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current">
+        Page {{ applications.number }} of {{ applications.paginator.num_pages }}.
+        </span>
+        {% if applications.has_next %}
+        <a href="?page={{ applications.next_page_number }}">next</a>
+        <a href="?page={{ applications.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+        </span>
+        </div>
+    <span><i>{{ count }} Entries<i></span>
+</div>
+{% endblock %}

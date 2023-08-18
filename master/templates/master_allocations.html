@@ -1,0 +1,41 @@
+{% extends 'master_base.html' %}
+{% block title %}Allocations{% endblock %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/master/">Kericho County Bursary Management System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{% url 'master homepage'%}">Home</a>
+            <a class="nav-link" href="{% url 'master applications' %}">Applications</a>
+            <a class="nav-link" href="{% url 'master users' %}">Users</a>
+            <a class="nav-link" href="{% url 'master financial' %}">Financial Years</a>
+            <a class="nav-link" href="{% url 'master allocations' %}">Allocations</a>
+            <a class="nav-link" href="/master/logout/">Log Out</a>
+        </div>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <h3>All Allocation</h3>
+    <table class="table">
+        <a href="{% url 'master allocations form' %}" class="btn btn-info">Add New Allocations</a>
+        <tr>
+            <th>Ward</th>
+            <th>Financial Year</th>
+            <th>Amount</th>
+        </tr>
+        {% for allocation in allocations %}
+        <tr>
+            <td>{{ allocation.ward.name }}</td>
+            <td>{{ allocation.financial_year.name }}</td>
+            <td>{{ allocation.amount }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

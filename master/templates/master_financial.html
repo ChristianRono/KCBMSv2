@@ -1,0 +1,48 @@
+{% extends 'master_base.html' %}
+{% block title %}Financial Years{% endblock %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/master/">Kericho County Bursary Management System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{% url 'master homepage'%}">Home</a>
+            <a class="nav-link" href="{% url 'master applications' %}">Applications</a>
+            <a class="nav-link" href="{% url 'master users' %}">Users</a>
+            <a class="nav-link" href="{% url 'master financial' %}">Financial Years</a>
+            <a class="nav-link" href="{% url 'master allocations' %}">Allocations</a>
+            <a class="nav-link" href="/master/logout/">Log Out</a>
+        </div>
+        </div>
+    </div>
+    </nav>
+
+<div class="container">
+    <h3>All Financial Years</h3>
+    <a href="{% url  'master financial form' %}" class="btn btn-info">Add New Financial Year</a>
+    <table class="table">
+        <tr>
+            <th>Financial Year</th>
+            <th>Is Active</th>
+            <th>Action</th>
+        </tr>
+        {% for year in financials %}
+        <tr>
+            <td>{{ year.name }}</td>
+            <td>{{ year.is_active }}</td>
+            <td>
+                {% if year.is_active %}
+                <a href="/master/financial/deactivate/{{ year.id }}/" class="btn btn-warning">De-activate</a>
+                {% else %}
+                <a href="/master/financial/activate/{{ year.id }}/" class="btn btn-info">Activate</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'accounts_base.html' %}
+{% block title %}Applications{% endblock %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'accounts homepage'%}">Kericho County Bursary Management System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{% url 'accounts homepage'%}">Home</a>
+            <a class="nav-link" href="{% url 'accounts applications' %}">Applications</a>
+            <a class="nav-link" href="{% url 'accounts schools' %}">Schools</a>
+            <a class="nav-link" href="{% url 'accounts students' %}">Students</a>
+            <a class="nav-link" href="/accounts/logout/">Log Out</a>
+        </div>
+        </div>
+    </div>
+    </nav>
+
+<div class='container'>
+    <h3>Email</h3>
+    <form class='form' method='POST' action="/accounts/email/{{ institution }}/">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-info" value="Send">
+    </form>
+</div>
+{% endblock %}
