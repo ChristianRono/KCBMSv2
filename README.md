@@ -1,7 +1,7 @@
 # KCBMSv2
 This is the revised Kericho Bursary Management System
 
-** Apps **
+## Apps 
 There are three apps
 1. Ward admin app
 2. Education Admin app
