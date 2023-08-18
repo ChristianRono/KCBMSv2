@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser,User
 
 # Create your models here.
 class Ward(models.Model):
@@ -8,11 +8,16 @@ class Ward(models.Model):
     def __str__(self):
         return self.name
     
-class Profile(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+class KCBMSUser(AbstractUser):
     is_ward_admin = models.BooleanField(default=False)
     is_edu_admin = models.BooleanField(default=False)
     is_accountant = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.username
+
+class Profile(models.Model):
+    user = models.OneToOneField(KCBMSUser,on_delete=models.CASCADE)
     ward = models.ForeignKey(Ward,on_delete=models.DO_NOTHING,blank=True,null=True)
 
     def __str__(self):
