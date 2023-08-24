@@ -28,16 +28,19 @@
     </div>
     <form enctype='multipart/form-data' method="POST" action="{% url 'main homepage' %}">
         <h4>File Upload</h4>
-        {% if status %}
-        <div class="alert alert-success" role="alert">
-            Data successfully saved!
-        </div>
-        {% elif status == None %}
-        <p></p>
+        {% if errors %}
+        {% for error in errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
         {% else %}
-        <div class="alert alert-danger" role="alert">
-            There are some data missing! Data not saved.
-        </div>
+            {% if success %}
+            <div class="alert alert-success" role="alert">
+                The file has been successfully uploaded.
+            </div>
+            {% else %}
+            {% endif %}
         {% endif %}
         {% csrf_token %}
         {{ form.as_p }}

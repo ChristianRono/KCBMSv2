@@ -1,5 +1,22 @@
 import openpyxl as xl
+import pandas as pd
+
 from master.models import Application,FinancialYear
+
+def file_handler2(filename,allocation):
+    data = pd.read_excel(filename)
+    errors = []
+    if not data.isnull().values.any():
+        if not data['BIRTH CERTIFICATE NUMBER'].duplicated().any():
+            if data.loc[:,'AMOUNT'].sum() < allocation:
+                return errors,data
+            else:
+                errors.append('Amount disbursed is more than the amount allocated!')
+        else:
+            errors.append('There are duplicate Birth Certificate Numbers!')
+    else:
+        errors.append('There are empty cells in the document! Make sure all data is entered for each student')
+    return errors,None
 
 def file_handler(file_name):
     workbook = xl.load_workbook(file_name)

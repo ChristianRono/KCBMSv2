@@ -48,6 +48,11 @@ class Application(models.Model):
         ('s','Single Parents'),
         ('b','Both Parents')
     )
+    SCHOOL_TYPE_CHOICES = (
+        ('p','Primary School'),
+        ('s','Secondary School'),
+        ('t','Tertiary School')
+    )
     full_name = models.CharField(max_length=100)
     birth_cert_no = models.CharField(max_length=100)
     admission_no = models.CharField(max_length=100)
@@ -56,6 +61,7 @@ class Application(models.Model):
     disability_status = models.BooleanField(default=False)
     family_status = models.CharField(max_length=2,choices=FAMILY_STATUS_CHOICES)
     institution = models.CharField(max_length=100)
+    school_type = models.CharField(max_length=100,choices=SCHOOL_TYPE_CHOICES)
     bank = models.CharField(max_length=100)
     account = models.CharField(max_length=100)
     branch = models.CharField(max_length=100)
