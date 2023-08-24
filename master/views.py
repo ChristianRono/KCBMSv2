@@ -135,9 +135,9 @@ def list_filter(request):
         "filter":filter_q})
 
 def users(reqeust):
-    edu_admin_users = Profile.objects.filter(is_edu_admin=True)
-    accountant_users = Profile.objects.filter(is_accountant=True)
-    ward_admin_users = Profile.objects.filter(is_ward_admin=True)
+    edu_admin_users = KCBMSUser.objects.filter(is_edu_admin=True)
+    accountant_users = KCBMSUser.objects.filter(is_accountant=True)
+    ward_admin_users = KCBMSUser.objects.filter(is_ward_admin=True)
     return render(reqeust,"master_users.html",{
         "edu_admin_users":edu_admin_users,
         "accountant_users":accountant_users,

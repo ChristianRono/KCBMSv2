@@ -45,15 +45,15 @@
                     <th>Action</th>
                 </tr>
                 {% for user in ward_admin_users %}
-                {% if user.user.is_active %}
+                {% if user.is_active %}
                 <tr>
-                    <td>{{ user.user.username }}</td>
+                    <td>{{ user.username }}</td>
                     <td>{{ user.ward.name | default:"N/A" }}</td>
-                    <td>{{ user.user.last_login }}</td>
-                    <td>{{ user.user.date_joined }}</td>
+                    <td>{{ user.last_login }}</td>
+                    <td>{{ user.date_joined }}</td>
                     <td>
-                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
-                        <a href="/master/users/deactivate/{{ user.user.id }}" class="btn btn-danger">De-activate User</a>
+                        <a href="/master/users/edit/{{ user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/deactivate/{{ user.id }}" class="btn btn-danger">De-activate User</a>
                     </td>
                 </tr>
                 {% endif %}
@@ -69,15 +69,15 @@
                     <th>Action</th>
                 </tr>
                 {% for user in ward_admin_users %}
-                {% if not user.user.is_active %}
+                {% if not user.is_active %}
                 <tr>
-                    <td>{{ user.user.username }}</td>
+                    <td>{{ user.username }}</td>
                     <td>{{ user.ward.name | default:"N/A" }}</td>
-                    <td>{{ user.user.last_login }}</td>
-                    <td>{{ user.user.date_joined }}</td>
+                    <td>{{ user.last_login }}</td>
+                    <td>{{ user.date_joined }}</td>
                     <td>
-                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
-                        <a href="/master/users/activate/{{ user.user.id }}" class="btn btn-warning">Activate User</a>
+                        <a href="/master/users/edit/{{ user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/activate/{{ user.id }}" class="btn btn-warning">Activate User</a>
                     </td>
                 </tr>
                 {% endif %}
@@ -94,14 +94,14 @@
                     <th>Action</th>
                 </tr>
                 {% for user in edu_admin_users %}
-                {% if user.user.is_active %}
+                {% if user.is_active %}
                 <tr>
-                    <td>{{ user.user.username }}</td>
-                    <td>{{ user.user.last_login }}</td>
-                    <td>{{ user.user.date_joined }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.last_login }}</td>
+                    <td>{{ user.date_joined }}</td>
                     <td>
-                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
-                        <a href="/master/users/deactivate/{{ user.user.id }}" class="btn btn-danger">De-activate User</a>
+                        <a href="/master/users/edit/{{ user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/deactivate/{{ user.id }}" class="btn btn-danger">De-activate User</a>
                     </td>
                 </tr>
                 {% endif %}
@@ -116,14 +116,14 @@
                     <th>Action</th>
                 </tr>
                 {% for user in edu_admin_users %}
-                {% if not user.user.is_active %}
+                {% if not user.is_active %}
                 <tr>
-                    <td>{{ user.user.username }}</td>
-                    <td>{{ user.user.last_login }}</td>
-                    <td>{{ user.user.date_joined }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.last_login }}</td>
+                    <td>{{ user.date_joined }}</td>
                     <td>
-                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
-                        <a href="/master/users/activate/{{ user.user.id }}" class="btn btn-warning">Activate User</a>
+                        <a href="/master/users/edit/{{ user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/activate/{{ user.id }}" class="btn btn-warning">Activate User</a>
                     </td>
                 </tr>
                 {% endif %}
@@ -140,14 +140,14 @@
                     <th>Action</th>
                 </tr>
                 {% for user in accountant_users %}
-                {% if user.user.is_active %}
+                {% if user.is_active %}
                 <tr>
-                    <td>{{ user.user.username }}</td>
-                    <td>{{ user.user.last_login }}</td>
-                    <td>{{ user.user.date_joined }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.last_login }}</td>
+                    <td>{{ user.date_joined }}</td>
                     <td>
-                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
-                        <a href="/master/users/deactivate/{{ user.user.id }}" class="btn btn-danger">De-activate User</a>
+                        <a href="/master/users/edit/{{ user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/deactivate/{{ user.id }}" class="btn btn-danger">De-activate User</a>
                     </td>
                 </tr>
                 {% endif %}
@@ -162,14 +162,14 @@
                     <th>Action</th>
                 </tr>
                 {% for user in accountant_users %}
-                {% if not user.user.is_active %}
+                {% if not user.is_active %}
                 <tr>
-                    <td>{{ user.user.username }}</td>
-                    <td>{{ user.user.last_login }}</td>
-                    <td>{{ user.user.date_joined }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.last_login }}</td>
+                    <td>{{ user.date_joined }}</td>
                     <td>
-                        <a href="/master/users/edit/{{ user.user.id }}" class="btn btn-info">Edit User</a>
-                        <a href="/master/users/activate/{{ user.user.id }}" class="btn btn-warning">Activate User</a>
+                        <a href="/master/users/edit/{{ user.id }}" class="btn btn-info">Edit User</a>
+                        <a href="/master/users/activate/{{ user.id }}" class="btn btn-warning">Activate User</a>
                     </td>
                 </tr>
                 {% endif %}
