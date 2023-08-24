@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from main.forms import ApplicationForm
 
-from main.utility import file_handler,file_handler2
+from main.utility import file_handler2
 from master.models import Allocation,Ward,Application,FinancialYear
 
 # Create your views here.
