@@ -131,3 +131,11 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = "/"
 
 AUTH_USER_MODEL = 'master.KCBMSUser'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'kiprotichchristian@gmail.com'
+EMAIL_HOST_PASSWORD = 'bpeucnlwfuxqzwrn'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

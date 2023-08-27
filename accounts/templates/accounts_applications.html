@@ -13,7 +13,6 @@
             <a class="nav-link" href="{% url 'accounts homepage'%}">Home</a>
             <a class="nav-link" href="{% url 'accounts applications' %}">Applications</a>
             <a class="nav-link" href="{% url 'accounts schools' %}">Schools</a>
-            <a class="nav-link" href="{% url 'accounts students' %}">Students</a>
             <a class="nav-link" href="/accounts/logout/">Log Out</a>
         </div>
         </div>
@@ -27,7 +26,7 @@
         <input type='checkbox' name='school-checkbox' value='off'> School
         <select class="disabled" name='school-dropdown'>
             {% for school in schools %}
-            <option value='{{ school | title }}'>{{ school | title }}</option>
+            <option value='{{ school }}'>{{ school | title }}</option>
             {% endfor %}
         </select>
         <input type='checkbox' name='gender-checkbox' value='off'> Gender
@@ -38,13 +37,13 @@
         <input type='checkbox' name='ward-checkbox' value='off'> Ward
         <select name='ward-dropdown'>
             {% for ward in wards %}
-            <option value='{{ ward | title }}'>{{ ward | title }}</option>
+            <option value='{{ ward }}'>{{ ward | title }}</option>
             {% endfor %}
         </select>
         <input type='checkbox' name='bank-checkbox' value='off'> Bank
         <select name='bank-dropdown'>
             {% for bank in banks %}
-            <option value='{{ bank | title }}'>{{ bank | title }}</option>
+            <option value='{{ bank }}'>{{ bank | title }}</option>
             {% endfor %}
         </select>
         <input class="btn btn-info" type="submit" value="Filter">

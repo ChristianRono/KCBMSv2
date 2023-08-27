@@ -1,26 +1,27 @@
 {% extends 'master_base.html' %}
-{% block title %}Applications{% endblock %}0
+{% block title %}{% endblock %}
 {% block content %}
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'accounts homepage'%}">Kericho County Bursary Management System</a>
+        <a class="navbar-brand" href="/master/">Kericho County Bursary Management System</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-link" href="{% url 'accounts homepage'%}">Home</a>
-            <a class="nav-link" href="{% url 'accounts applications' %}">Applications</a>
-            <a class="nav-link" href="{% url 'accounts schools' %}">Schools</a>
-            <a class="nav-link" href="/accounts/logout/">Log Out</a>
+            <a class="nav-link" href="{% url 'master homepage'%}">Home</a>
+            <a class="nav-link" href="{% url 'master applications' %}">Applications</a>
+            <a class="nav-link" href="{% url 'master users' %}">Users</a>
+            <a class="nav-link" href="{% url 'master financial' %}">Financial Years</a>
+            <a class="nav-link" href="{% url 'master allocations' %}">Allocations</a>
+            <a class="nav-link" href="/master/logout/">Log Out</a>
         </div>
         </div>
     </div>
     </nav>
 
 <div class="container">
-    <h4>Filter: {{ filter }}  <a href="/accounts/download/{{ filter }}/" class="btn btn-info">Print</a></h4>
+    <h3>Duplicate Records</h3>
     <table class="table">
         <tr>
             <th>Birth Certificate Number</th>
@@ -47,27 +48,7 @@
             <td>{{ application.branch | title }}</td>
             <td>{{ application.amount | title }}</td>
         </tr>
-        {% empty %}
-        <tr>
-            <span>No Applications as of now!</span>
-        </tr>
         {% endfor %}
     </table>
-    <div class="pagination">
-        <span class="step-links">
-        {% if applications.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ applications.previous_page_number }}">previous</a>
-        {% endif %}
-        <span class="current">
-        Page {{ applications.number }} of {{ applications.paginator.num_pages }}.
-        </span>
-        {% if applications.has_next %}
-        <a href="?page={{ applications.next_page_number }}">next</a>
-        <a href="?page={{ applications.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-        </span>
-        </div>
-    <span><i>{{ count }} Entries<i></span>
 </div>
 {% endblock %}

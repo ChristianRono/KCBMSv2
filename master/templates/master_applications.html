@@ -50,8 +50,15 @@
         </select>
         <input class="btn btn-info" type="submit" value="Filter">
     </form>
+    {% if messages %}
+    {% for message in messages %}
+    <div class='alert alert-{{ message.tags }}'>
+        {{ message|safe }}
+    </div>
+    {% endfor %}
+    {% endif %}
     <table class="table">
-        <button class="btn btn-info">Check Applications</button>
+        <a href="{% url 'check applications' %}" class="btn btn-info">Check Applications</a>
         <tr>
             <th>Birth Certificate Number</th>
             <th>Full Name</th>

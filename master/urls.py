@@ -11,7 +11,8 @@ from master.views import (
     allocations_new,
     financial_activate,
     financial_deactivate,
-    financial_new
+    financial_new,
+    check_applications
     )
 
 urlpatterns = [
@@ -26,5 +27,6 @@ urlpatterns = [
     path('financial/new/',view=financial_new,name="master financial form"),
     path('financial/deactivate/<int:id>/',view=financial_deactivate,name='master financial deactivate'),
     path('financial/activate/<int:id>/',view=financial_activate,name='master financial activate'),
+    path('check/',view=check_applications,name='check applications'),
     path('',view=homepage,name='master homepage'),
 ]

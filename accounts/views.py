@@ -1,4 +1,8 @@
-from django.shortcuts import render,redirect
+import os
+import mimetypes
+import pandas as pd
+
+from django.shortcuts import render,redirect,HttpResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.core.mail import EmailMessage
@@ -6,7 +10,8 @@ from django.core.mail import EmailMessage
 from master.models import Application,FinancialYear
 from accounts.forms import EmailForm
 
-from main.utility import file_creator
+from main.utility import file_creator,file_creator2
+
 # Create your views here.
 
 def homepage(request):
@@ -15,33 +20,47 @@ def homepage(request):
     all_wards = Application.objects.values_list('ward__name',flat=True).distinct()
     current_wards = Application.objects.filter(financial_year__is_active=True).values_list('ward__name',flat=True).distinct()
     
-    # Do the statistics for all applications
-    all_males = Application.objects.filter(gender='m').count()
-    all_females = Application.objects.filter(gender='f').count()
-    all_males_percentage = all_males / ( all_males + all_females ) * 100
-    all_females_percentage = all_females / ( all_males + all_females ) * 100
-    all_males_percentage = round(all_males_percentage,2)
-    all_females_percentage = round(all_females_percentage,2)
+    if total_all_applications > 0:
+        # Do the statistics for all applications
+        all_males = Application.objects.filter(gender='m').count()
+        all_females = Application.objects.filter(gender='f').count()
+        all_males_percentage = all_males / ( all_males + all_females ) * 100
+        all_females_percentage = all_females / ( all_males + all_females ) * 100
+        all_males_percentage = round(all_males_percentage,2)
+        all_females_percentage = round(all_females_percentage,2)
+    else:
+        all_males = 0
+        all_females = 0
+        all_males_percentage = 0
+        all_females_percentage = 0
 
-    # Do the statistics for current financial year applications
-    current_males = Application.objects.filter(gender='m',financial_year__is_active=True).count()
-    current_females = Application.objects.filter(gender='f',financial_year__is_active=True).count()
-    current_males_percentage = current_males / ( current_males + current_females ) * 100
-    current_females_percentage = current_females / ( current_males + current_females ) * 100
-    current_males_percentage = round(current_males_percentage,2)
-    current_females_percentage = round(current_females_percentage,2)
+    if total_current_applications > 0:
+        # Do the statistics for current financial year applications
+        current_males = Application.objects.filter(gender='m',financial_year__is_active=True).count()
+        current_females = Application.objects.filter(gender='f',financial_year__is_active=True).count()
+        current_males_percentage = current_males / ( current_males + current_females ) * 100
+        current_females_percentage = current_females / ( current_males + current_females ) * 100
+        current_males_percentage = round(current_males_percentage,2)
+        current_females_percentage = round(current_females_percentage,2)
+    else:
+        current_males = 0
+        current_females = 0
+        current_males_percentage = 0
+        current_females_percentage = 0
 
     ward_all_data = {}
-    for ward in all_wards:
-        count = Application.objects.filter(ward__name=ward).count()
-        ward_percentage = count / total_all_applications * 100
-        ward_all_data[ward] = {"count":count,'percentage':round(ward_percentage,2)}
+    if total_all_applications > 0:
+        for ward in all_wards:
+            count = Application.objects.filter(ward__name=ward).count()
+            ward_percentage = count / total_all_applications * 100
+            ward_all_data[ward] = {"count":count,'percentage':round(ward_percentage,2)}
     
     ward_current_data = {}
-    for ward in current_wards:
-        count = Application.objects.filter(ward__name=ward,financial_year__is_active=True).count()
-        ward_percentage = count / total_current_applications * 100
-        ward_current_data[ward] = {"count":count,'percentage':round(ward_percentage,2)}
+    if total_current_applications > 0:
+        for ward in current_wards:
+            count = Application.objects.filter(ward__name=ward,financial_year__is_active=True).count()
+            ward_percentage = count / total_current_applications * 100
+            ward_current_data[ward] = {"count":count,'percentage':round(ward_percentage,2)}
     
     return render(request,"accounts_homepage.html",{"total_all_applications":total_all_applications,
                                                   "total_current_applications":total_current_applications,
@@ -77,7 +96,7 @@ def list_filter(request):
     query = Q(financial_year__is_active=True)
     filter_q = 'Financial Year: Current'
     if 'school-checkbox' in request.POST:
-        filter_q += ' & School:' + request.POST['school-dropdown']
+        filter_q += ' & Institution:' + request.POST['school-dropdown']
         query = query & Q(institution=request.POST['school-dropdown'])
     if 'gender-checkbox' in request.POST:
         gender = "Male" if request.POST['gender-dropdown'] == 'm' else "Female"
@@ -125,39 +144,65 @@ def list_schools(request):
         Total += sub_total
     return render(request,"accounts_schools.html",{'schools':SCHOOLS,'total':Total})
 
-def list_students(request):
-    schools = Application.objects.values_list('institution', flat=True).distinct()
-    query = Q(financial_year__is_active=True)
-    filter_q = ''
-    if 'school-checkbox' in request.POST:
-        filter_q += 'School:' + request.POST['school-dropdown']
-        query = query & Q(institution=request.POST['school-dropdown'])
-    
-    applications = Application.objects.filter(query)
+def list_students(request,institution):
+    applications = Application.objects.filter(financial_year__is_active=True,institution=institution)
 
     paginator = Paginator(applications,10)
     page = request.GET.get('page')
     applications = paginator.get_page(page)
     return render(request,"accounts_students.html",{
-        "applications":applications,
-        "filter":filter_q,
-        'schools':schools})
+        "applications":applications,'institution':institution})
+    
 
-def email(request,institution=None):
+def email(request,institution):
     if request.method == 'POST':
         form = EmailForm(request.POST,request.FILES)
         if form.is_valid():
-            to = form.cleaned_data['to']
+            to = [form.cleaned_data['to']]
             re = form.cleaned_data['re']
             message = form.cleaned_data['message']
-            attachment = 'Students List.xlsx'
+            doc = f"{FinancialYear.objects.get(is_active=True).name.replace('/',':')}-{institution}-Students List.xlsx"
+            attachment = f'media/{doc}'
             email = EmailMessage(re,message,to=to)
 
             content = open(attachment, 'rb')
-            email.attach('Students List.xlsx',content.read(),'application/pdf')
+            email.attach(doc,content.read(),'application/pdf')
             email.send()
+            os.remove(f'media/{doc}')
+            return redirect("accounts homepage")
     else:
         applications = Application.objects.filter(institution=institution)
-        name = file_creator(applications)
+        year = FinancialYear.objects.get(is_active=True)
+        file_creator(applications,institution,year.name)
         form =EmailForm({'re':'Bursary Students List','message':'This is an automatic message. Please do not reply.'})
         return render(request,"accounts_email.html",{'form':form,'institution':institution})
+    
+def download(request,filter):
+    filters = filter.split('&')
+    query = Q(financial_year__is_active=True)
+    for filter in filters[1:]:
+        parts = filter.split(':')
+        part0 = parts[0].lower().strip()
+        if part0 == 'ward':
+            query = query & Q(ward__name=parts[1])
+        else:
+            query = query & Q((part0,parts[1]))
+    applications = Application.objects.filter(query)
+    applications.select_related('ward','financial_year')
+    applications_list = list(applications.values('full_name',
+                                                 'birth_cert_no',
+                                                 'ward__name',
+                                                 'gender',
+                                                 'institution',
+                                                 'bank',
+                                                 'account',
+                                                 'branch',
+                                                 'amount',
+                                                 'family_status',
+                                                 'disability_status'))
+    year = FinancialYear.objects.get(is_active=True)
+    df = pd.DataFrame(applications_list)
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = f'attachment; filename="{year}-{filter}.xlsx"'
+    df.to_excel(response, index=False)
+    return response

@@ -13,7 +13,6 @@
             <a class="nav-link" href="{% url 'accounts homepage'%}">Home</a>
             <a class="nav-link" href="{% url 'accounts applications' %}">Applications</a>
             <a class="nav-link" href="{% url 'accounts schools' %}">Schools</a>
-            <a class="nav-link" href="{% url 'accounts students' %}">Students</a>
             <a class="nav-link" href="/accounts/logout/">Log Out</a>
         </div>
         </div>
@@ -22,17 +21,8 @@
 
 <div class="container">
     <h3>Students</h3>
-    <form class="form" method="POST" action="{% url 'accounts students' %}">
-        {% csrf_token %}
-        <input type='checkbox' name='school-checkbox' value='off'> School
-        <select class="disabled" name='school-dropdown'>
-            {% for school in schools %}
-            <option value='{{ school | title }}'>{{ school | title }}</option>
-            {% endfor %}
-        </select>
-        <input class="btn btn-info" type="submit" value="Filter">
-        <a href="/accounts/email/{{ applications.0.institution }}/" class="btn btn-info">Email List</a>
-    </form>
+    <a href="/accounts/email/{{ institution }}/" class="btn btn-info">Share List</a>
+    <a href="/accounts/download/{{ institution }}" class="btn btn-info">Download List</a>
     <table class="table">
         <tr>
             <th>Full Name</th>
@@ -46,10 +36,6 @@
             <td>{{ application.admission_no | title }}</td>
             <td>{{ application.get_gender_display | title }}</td>
             <td>{{ application.amount | title }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <span>No Applications as of now!</span>
         </tr>
         {% endfor %}
     </table>

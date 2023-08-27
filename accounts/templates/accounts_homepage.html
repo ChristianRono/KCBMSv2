@@ -13,7 +13,6 @@
             <a class="nav-link" href="{% url 'accounts homepage'%}">Home</a>
             <a class="nav-link" href="{% url 'accounts applications' %}">Applications</a>
             <a class="nav-link" href="{% url 'accounts schools' %}">Schools</a>
-            <a class="nav-link" href="{% url 'accounts students' %}">Students</a>
             <a class="nav-link" href="/accounts/logout/">Log Out</a>
         </div>
         </div>
@@ -26,6 +25,7 @@
     <p>Total Applications: {{ total_all_applications }}</p>
     <p>There are {{ all_females }} female applicants which is {{ all_females_percentage }}% of all applications</p>
     <p>There are {{ all_males }} male applicants which is {{ all_males_percentage }}% of all applications</p>
+    {% if total_all_applications > 0 %}
     <table class="table">
         <tr>
             <th>Ward</th>
@@ -40,11 +40,13 @@
         </tr>
         {% endfor %}
     </table>
+    {% endif %}
 
     <h4>Current Financial Year Applications</h4>
     <p>Total Applications: {{ total_current_applications }}</p>
     <p>There are {{ current_females }} female applicants which is {{ current_females_percentage }}% of all applications</p>
     <p>There are {{ current_males }} male applicants which is {{ current_males_percentage }}% of all applications</p>
+    {% if total_current_applications > 0 %}
     <table class="table">
         <tr>
             <th>Ward</th>
@@ -59,6 +61,7 @@
         </tr>
         {% endfor %}
     </table>
+    {% endif %}
 
 </div>
 {% endblock %}

@@ -13,7 +13,6 @@
             <a class="nav-link" href="{% url 'accounts homepage'%}">Home</a>
             <a class="nav-link" href="{% url 'accounts applications' %}">Applications</a>
             <a class="nav-link" href="{% url 'accounts schools' %}">Schools</a>
-            <a class="nav-link" href="{% url 'accounts students' %}">Students</a>
             <a class="nav-link" href="/accounts/logout/">Log Out</a>
         </div>
         </div>
@@ -29,6 +28,7 @@
             <th>Account Number</th>
             <th>Branch</th>
             <th>Amount</th>
+            <th>Actions</th>
         </tr>
         {% for school,data in schools.items %}
         <tr>
@@ -53,6 +53,7 @@
                 {% endif %}
             </td>
             <td>{{ data.amount|title }}</td>
+            <td><a class="btn btn-info" href="/accounts/students/{{ school }}/">View Students</a></td>
         </tr>
         {% empty %}
         <tr>
