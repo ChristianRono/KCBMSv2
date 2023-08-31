@@ -223,7 +223,7 @@ def check_applications(request):
         .order_by()
         .filter(count__gt=1)
     )
-    applications = Application.objects.filter(birth_cert_no__in=dups)
+    applications = Application.objects.filter(birth_cert_no__in=dups).order_by('birth_cert_no')
     if applications.exists():
         return render(request,'master_applications_check.html',{'applications':applications})
     else:

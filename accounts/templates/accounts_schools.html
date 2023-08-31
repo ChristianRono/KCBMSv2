@@ -1,4 +1,5 @@
 {% extends 'accounts_base.html' %}
+{% load humanize %}
 {% block title %}Schools{% endblock %}0
 {% block content %}
 
@@ -52,7 +53,7 @@
                     {{ data.branch.0 }}
                 {% endif %}
             </td>
-            <td>{{ data.amount|title }}</td>
+            <td>{{ data.amount|intcomma }}</td>
             <td><a class="btn btn-info" href="/accounts/students/{{ school }}/">View Students</a></td>
         </tr>
         {% empty %}
@@ -62,7 +63,7 @@
         {% endfor %}
         <tr>
             <th>Total</th>
-            <th>Ksh.{{ total }}</th>
+            <th>Ksh.{{ total|intcomma }}</th>
     </table>
     <div class="pagination">
         <span class="step-links">

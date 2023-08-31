@@ -200,6 +200,7 @@ def download(request,filter):
                                                  'amount',
                                                  'family_status',
                                                  'disability_status'))
+    print(applications_list)
     year = FinancialYear.objects.get(is_active=True)
     df = pd.DataFrame(applications_list)
     response = HttpResponse(content_type='application/ms-excel')

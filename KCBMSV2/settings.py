@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'main',
     'master',
     'accounts',
@@ -139,3 +140,5 @@ EMAIL_HOST_PASSWORD = 'bpeucnlwfuxqzwrn'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 30000
